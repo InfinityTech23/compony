@@ -5,9 +5,16 @@
 @section('content')
     <main id="main" class="main">
 
-        <div class="pagetitle">
-            <h1>Websites</h1>
-        </div><!-- End Page Title -->
+        <div class="row justify-content-between">
+            <div class="pagetitle">
+                <h1>Websites</h1>
+            </div><!-- End Page Title -->
+            <div>
+                <a class="btn btn-primary" href="{{ route('admin-websites.create') }}">Add</a>
+            </div>
+        </div>
+
+        <br>
 
         @if (Session::has('success'))
             <div class="alert alert-success">{{ Session::get('success') }}</div>

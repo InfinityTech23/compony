@@ -38,22 +38,25 @@ class AdminWebsitesController extends Controller
             'mainImage' => 'required|image'
         ]);
 
+        $mainImage = time() . '.' . $request->file('mainImage')->extension();
+        $request->file('mainImage')->move(public_path('uploads/websites/'), $mainImage);
+
+
         // Insert And Return Last ID
-        $last_id = DB::table('products')->insertGetId([
+        $lastID = DB::table('products')->insertGetId([
             'cat_id' => 1,
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
-            'mainImage' => $request->mainImage,
-            'server' => $request->server
+            'mainImage' => $mainImage,
+            'server' => $request->get('server')
         ]);
-
         foreach ($request->file('images') as $value) {
-            $name = time() . '.' . $value->extension();
+            $name = time() . "range(0, 50, 1)" . '.' . $value->extension();
             $value->move(public_path('uploads/websites/'), $name);
             DB::table('product_gallery')->insert([
-                'product_id' => $last_id,
-                'src' => $value->src
+                'product_id' => $lastID,
+                'src' => $name
             ]);
         }
 
